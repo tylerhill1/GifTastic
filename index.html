@@ -34,7 +34,8 @@
     function makeButtons() {
         for (var i=0; i<topics.length; i++) {
             var button = $("<button>");
-            button.attr("id", ("button" + i));
+            button.attr("data-fruit", topics[i]);
+            button.addClass("gifButton");
             button.text(topics[i]);
             $("#buttons").append(button);
         }
@@ -42,12 +43,58 @@
 
     makeButtons();
 
+    $(".gifButton").on("click", function() {
+      console.log("Test");
+      var fruit = $(this).attr("data-fruit");
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        fruit + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
 
-    // //
-    // $("#cat-button").on("click", function() {
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).then(function(response) {
+        // Step 1: Run this file, click a button, and see what the response object looks like in the browser's console.
+        // Open up the data key, then open up the 0th, element. Study the keys and how the JSON is structured.
 
-    //   //
-    //   var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&tag=cats";
+        console.log(response);
+
+        // Step 2: since the image information is inside of the data key,
+        // make a variable named results and set it equal to response.data
+
+        // =============== put step 2 in between these dashes ==================
+        var results = response.data;
+        console.log(results);
+        // ========================
+
+
+        // Step 3: uncomment the for loop above and the closing curly bracket below.
+        
+
+        // ============= put step 3 in between these dashes ======================
+        for (var i = 0; i < results.length; i++) {
+          // Make a div with jQuery and store it in a variable named animalDiv.
+          var fruitDiv = $("<div>");
+        // Make a paragraph tag with jQuery and store it in a variable named p.
+          var p = $("<p>");
+        // Set the inner text of the paragraph to the rating of the image in results[i].
+            p.text("Rating: " + results[i].rating);
+        // Make an image tag with jQuery and store it in a variable named animalImage.
+            var fruitImage = $("<img>");
+        // Set the image's src to results[i]'s fixed_height.url.
+          fruitImage.attr("src", results[i].images.fixed_height.url);
+        // Append the p variable to the animalDiv variable.
+            fruitDiv.append(p);
+        // Append the animalImage variable to the animalDiv variable.
+        fruitDiv.append(fruitImage);
+        // Prepend the animalDiv variable to the element with an id of gifs-appear-here.
+        $("#images").prepend(fruitDiv);
+          
+        }
+        // ==================================
+        // }
+
+      });
+    });
 
     //   //
     //   $.ajax({
@@ -71,7 +118,6 @@
     //       //
     //       $("#images").prepend(catImage);
     //     });
-    // });
   </script>
 </body>
 
