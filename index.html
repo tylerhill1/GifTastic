@@ -10,6 +10,12 @@
     <div id="buttons">
     </div>
 
+    <form id="search">
+        <label for="new-button">Enter a car here:</label>
+        <input id="car-input" type="text">
+        <button class="btn btn-default" id="add-car" type="submit">Go</button>
+    </div>
+
   <div id="images">
   </div>
 
@@ -34,9 +40,10 @@
     ]
 
     function makeButtons() {
+        $("#buttons").empty();
         for (var i=0; i<topics.length; i++) {
             var button = $("<button>");
-            button.attr("data-fruit", topics[i]);
+            button.attr("data-car", topics[i]);
             button.addClass("gifButton");
             button.text(topics[i]);
             $("#buttons").append(button);
@@ -46,10 +53,10 @@
     makeButtons();
 
     $(document).on("click", ".gifButton", function() {
-      console.log("Test");
-      var fruit = $(this).attr("data-fruit");
+        $("#images").empty();
+      var car = $(this).attr("data-car");
       var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        fruit + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
+        car + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
 
       $.ajax({
         url: queryURL,
@@ -75,25 +82,25 @@
         // ============= put step 3 in between these dashes ======================
         for (var i = 0; i < results.length; i++) {
           // Make a div with jQuery and store it in a variable named animalDiv.
-          var fruitDiv = $("<div>");
+          var carDiv = $("<div>");
         // Make a paragraph tag with jQuery and store it in a variable named p.
           var p = $("<p>");
         // Set the inner text of the paragraph to the rating of the image in results[i].
             p.text("Rating: " + results[i].rating);
         // Make an image tag with jQuery and store it in a variable named animalImage.
-            var fruitImage = $("<img>");
+            var carImage = $("<img>");
         // Set the image's src to results[i]'s fixed_height.url.
-          fruitImage.attr("src", results[i].images.fixed_height_still.url);
-          fruitImage.attr("data-state", "still");
-          fruitImage.attr("data-still", results[i].images.fixed_height_still.url);
-          fruitImage.attr("data-animate", results[i].images.fixed_height.url);
-          fruitImage.addClass("gif");
+          carImage.attr("src", results[i].images.fixed_height_still.url);
+          carImage.attr("data-state", "still");
+          carImage.attr("data-still", results[i].images.fixed_height_still.url);
+          carImage.attr("data-animate", results[i].images.fixed_height.url);
+          carImage.addClass("gif");
         // Append the p variable to the animalDiv variable.
-            fruitDiv.append(p);
+            carDiv.append(p);
         // Append the animalImage variable to the animalDiv variable.
-        fruitDiv.append(fruitImage);
+        carDiv.append(carImage);
         // Prepend the animalDiv variable to the element with an id of gifs-appear-here.
-        $("#images").prepend(fruitDiv);
+        $("#images").prepend(carDiv);
           
         }
         // ==================================
@@ -115,6 +122,15 @@
         $(this).attr("src", $(this).attr("data-still"));
         $(this).attr("data-state", "still");
       }
+    });
+
+    $("#add-car").on("click", function() {
+        event.preventDefault();
+        var newCar = $("#car-input").val().trim();
+        topics.push(newCar);
+        console.log(newCar);
+        console.log(topics);
+        makeButtons();
     });
 
     //   //
