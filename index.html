@@ -62,59 +62,44 @@
         url: queryURL,
         method: "GET"
       }).then(function(response) {
-        // Step 1: Run this file, click a button, and see what the response object looks like in the browser's console.
-        // Open up the data key, then open up the 0th, element. Study the keys and how the JSON is structured.
+ 
 
         console.log(response);
 
-        // Step 2: since the image information is inside of the data key,
-        // make a variable named results and set it equal to response.data
-
-        // =============== put step 2 in between these dashes ==================
+       
         var results = response.data;
         console.log(results);
-        // ========================
-
-
-        // Step 3: uncomment the for loop above and the closing curly bracket below.
-        
-
-        // ============= put step 3 in between these dashes ======================
+       
         for (var i = 0; i < results.length; i++) {
-          // Make a div with jQuery and store it in a variable named animalDiv.
-          var carDiv = $("<div>");
-        // Make a paragraph tag with jQuery and store it in a variable named p.
-          var p = $("<p>");
-        // Set the inner text of the paragraph to the rating of the image in results[i].
+
+            var carDiv = $("<div>");
+
+            var p = $("<p>");
+
             p.text("Rating: " + results[i].rating);
-        // Make an image tag with jQuery and store it in a variable named animalImage.
+
             var carImage = $("<img>");
-        // Set the image's src to results[i]'s fixed_height.url.
-          carImage.attr("src", results[i].images.fixed_height_still.url);
+
+            carImage.attr("src", results[i].images.fixed_height_still.url);
           carImage.attr("data-state", "still");
           carImage.attr("data-still", results[i].images.fixed_height_still.url);
           carImage.attr("data-animate", results[i].images.fixed_height.url);
           carImage.addClass("gif");
-        // Append the p variable to the animalDiv variable.
-            carDiv.append(p);
-        // Append the animalImage variable to the animalDiv variable.
+
+          carDiv.append(p);
         carDiv.append(carImage);
-        // Prepend the animalDiv variable to the element with an id of gifs-appear-here.
+
         $("#images").prepend(carDiv);
           
         }
-        // ==================================
-        // }
+       
 
       });
     });
 
     $(document).on("click", ".gif", function() {
-      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
       var state = $(this).attr("data-state");
-      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-      // Then, set the image's data-state to animate
-      // Else set src to the data-still value
+      
       if (state === "still") {
         $(this).attr("src", $(this).attr("data-animate"));
         $(this).attr("data-state", "animate");
@@ -126,35 +111,16 @@
 
     $("#add-car").on("click", function() {
         event.preventDefault();
-        var newCar = $("#car-input").val().trim();
-        topics.push(newCar);
-        console.log(newCar);
-        console.log(topics);
-        makeButtons();
+
+        if($("#car-input").val().trim() != "") {
+            var newCar = $("#car-input").val().trim();
+            topics.push(newCar);
+            console.log(newCar);
+            console.log(topics);
+            $("#car-input").val("");
+            makeButtons();
+        }
     });
-
-    //   //
-    //   $.ajax({
-    //     url: queryURL,
-    //     method: "GET"
-    //   })
-
-    //     //
-    //     .then(function(response) {
-
-    //       //
-    //       var imageUrl = response.data.image_original_url;
-
-    //       //
-    //       var catImage = $("<img>");
-
-    //       //
-    //       catImage.attr("src", imageUrl);
-    //       catImage.attr("alt", "cat image");
-
-    //       //
-    //       $("#images").prepend(catImage);
-    //     });
   </script>
 </body>
 
