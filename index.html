@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>The Magical Cat Button</title>
+  <title>Giffy Lube</title>
 </head>
 
 <body>
@@ -17,18 +17,20 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
+
+  
     var topics = [
-        "Apple",
-        "Banana",
-        "Pear",
-        "Plum",
-        "Peach",
-        "Strawberry",
-        "Raspberry",
-        "Blueberry",
-        "Papaya",
-        "Watermelon",
-        "Pineapple"
+        "Volkswagen",
+        "Honda",
+        "Hyundai",
+        "Ford",
+        "Chevy",
+        "Tesla",
+        "Mustang",
+        "Family Van",
+        "Lowrider",
+        "Swagger Wagon",
+        "Minivan"
     ]
 
     function makeButtons() {
@@ -43,7 +45,7 @@
 
     makeButtons();
 
-    $(".gifButton").on("click", function() {
+    $(document).on("click", ".gifButton", function() {
       console.log("Test");
       var fruit = $(this).attr("data-fruit");
       var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
@@ -81,7 +83,11 @@
         // Make an image tag with jQuery and store it in a variable named animalImage.
             var fruitImage = $("<img>");
         // Set the image's src to results[i]'s fixed_height.url.
-          fruitImage.attr("src", results[i].images.fixed_height.url);
+          fruitImage.attr("src", results[i].images.fixed_height_still.url);
+          fruitImage.attr("data-state", "still");
+          fruitImage.attr("data-still", results[i].images.fixed_height_still.url);
+          fruitImage.attr("data-animate", results[i].images.fixed_height.url);
+          fruitImage.addClass("gif");
         // Append the p variable to the animalDiv variable.
             fruitDiv.append(p);
         // Append the animalImage variable to the animalDiv variable.
@@ -94,6 +100,21 @@
         // }
 
       });
+    });
+
+    $(document).on("click", ".gif", function() {
+      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+      var state = $(this).attr("data-state");
+      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+      // Then, set the image's data-state to animate
+      // Else set src to the data-still value
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
     });
 
     //   //
